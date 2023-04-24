@@ -21,10 +21,10 @@
 ## インストール方法 ##
 Python 3.7以降をインストールしてください。
 
-## 以下のコマンドを実行して、必要なライブラリをインストールしてください。##
+## 以下のコマンドを実行して、必要なライブラリをインストールしてください。
 pip install streamlit pandas sqlite3
 
-## 以下のコマンドを実行して、Sleep Loggerを起動してください。##
+## 以下のコマンドを実行して、Sleep Loggerを起動してください。
 streamlit run sleep_logger.py
 
 
