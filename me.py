@@ -59,10 +59,14 @@ end_date = datetime.today().date()
 start_date = end_date - timedelta(days=30)
 df = pd.read_sql_query(f'''
     SELECT date, sleep_time, wake_time,
-           strftime('%s', wake_time) - strftime('%s', sleep_time) AS sleep_duration
+           CASE WHEN strftime('%s', wake_time) < strftime('%s', sleep_time)
+                THEN strftime('%s', wake_time, '+1 day') - strftime('%s', sleep_time)
+                ELSE strftime('%s', wake_time) - strftime('%s', sleep_time)
+           END AS sleep_duration
     FROM sleep_data
     WHERE date BETWEEN '{start_date}' AND '{end_date}'
 ''', conn)
+
 
 # 統計情報を表示する
 if not df.empty:
@@ -70,10 +74,13 @@ if not df.empty:
     st.write(df)
     avg_duration = df['sleep_duration'].mean() / 3600
     st.write(f'平均睡眠時間: {avg_duration:.1f} 時間')
-    if avg_duration < 7:
+    if avg_duration < 6:
         st.warning('平均睡眠時間が短いです。改善のためには睡眠時間を延ばすように心がけましょう。')
-    elif avg_duration > 9:
-        st.warning('平均睡眠時間が長いです。改善のためには早寝早起きを心がけましょう。')
+    elif avg_duration > 8:
+        st.warning('平均睡眠時間が長すぎます。睡眠の取りすぎは健康によくありありません。改善のためには6から7時間を心がけましょう。')
+    else:
+        st.success('適切な睡眠時間です。この調子で継続を心がけましょう')
+
         
     # 睡眠時間の推移を折れ線グラフで表示する
     df['date'] = pd.to_datetime(df['date']) # 日付をdatetime型に変換
