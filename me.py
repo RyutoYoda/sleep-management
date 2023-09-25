@@ -71,15 +71,29 @@ df = pd.read_sql_query(f'''
 # 統計情報を表示する
 if not df.empty:
     st.header('過去1か月間の睡眠時間の統計情報')
-    st.write(df)
-    avg_duration = df['sleep_duration'].mean() / 3600
-    st.write(f'平均睡眠時間: {avg_duration:.1f} 時間')
-    if avg_duration < 6:
+    
+    # sleep_durationを時間に変換（小数）
+    df['hours'] = df['sleep_duration'] / 3600
+    
+    # hours列を小数点第1位まで表示
+    df['hours'] = df['hours'].round(1)
+    
+    st.write(df[['date', 'sleep_time', 'wake_time', 'hours']])
+    
+    avg_hours = df['hours'].mean()
+    
+    st.write(f'平均睡眠時間: {avg_hours:.1f} 時間')
+    
+    total_minutes = df['sleep_duration'].sum() // 60
+    st.write(f'合計睡眠時間: {total_minutes}分')
+    
+    if avg_hours < 6:
         st.warning('平均睡眠時間が短いです。改善のためには睡眠時間を延ばすように心がけましょう。')
-    elif avg_duration > 8:
-        st.warning('平均睡眠時間が長すぎます。睡眠の取りすぎは健康によくありありません。改善のためには6から7時間を心がけましょう。')
+    elif avg_hours > 8:
+        st.warning('平均睡眠時間が長すぎます。改善のためには早寝早起きを心がけましょう。')
     else:
-        st.success('適切な睡眠時間です。この調子で継続を心がけましょう')
+        st.success('適切な睡眠時間です。')
+
 
         
     # 睡眠時間の推移を折れ線グラフで表示する
