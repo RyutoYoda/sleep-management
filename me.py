@@ -24,7 +24,6 @@ date = st.date_input('日付を選択してください')
 sleep_time = st.time_input('就寝時間を選択してください')
 wake_time = st.time_input('起床時間を選択してください')
 
-# トグルで必要睡眠量の情報を表示/非表示にする
 show_sleep_info = st.checkbox('自身の必要睡眠量を知る方法について')
 if show_sleep_info:
     st.subheader('必要睡眠量を知る方法')
