@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS sleep_data (
 ''')
 
 # ユーザーからの入力を受け付ける
-st.header('睡眠時間の記録')
+st.header('Slee.py🐝')
 date = st.date_input('日付を選択してください')
 sleep_time = st.time_input('就寝時間を選択してください')
 wake_time = st.time_input('起床時間を選択してください')
