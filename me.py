@@ -24,6 +24,15 @@ date = st.date_input('日付を選択してください')
 sleep_time = st.time_input('就寝時間を選択してください')
 wake_time = st.time_input('起床時間を選択してください')
 
+# トグルで必要睡眠量の情報を表示/非表示にする
+show_sleep_info = st.checkbox('自身の必要睡眠量を知る方法について')
+if show_sleep_info:
+    st.subheader('必要睡眠量を知る方法')
+    st.write('STEP1:')
+    st.write('4日間連続で朝自然に起きるまで眠ります。')
+    st.write('STEP2:')
+    st.write('4日目に計測した時間が必要睡眠量となります。')
+
 # 入力されたデータをSQLiteに保存する
 if st.button('保存'):
     date_str = date.strftime('%Y-%m-%d')
